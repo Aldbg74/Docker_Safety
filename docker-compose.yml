@@ -15,6 +15,35 @@ services:
     networks:
       - cybernet
     tty: true
+    volumes:
+      - ./scripts:/home/kali/scripts
+
+  metasploit:
+    image: metasploitframework/metasploit-framework
+    container_name: metasploit
+    networks:
+      - cybernet
+    tty: true
+    stdin_open: true
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - cybernet
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    networks:
+      - cybernet
+
 networks:
   cybernet:
     driver: bridge
